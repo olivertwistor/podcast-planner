@@ -29,6 +29,7 @@ with the following modules enabled:
 * a database driver such as *mysqli*, *postgre* and *sqlite3* (please refer to 
 [CodeIgniter's server requirements][5] for information which database drivers 
 are specifically supported)
+* [Composer][2] (recommended)
 
 ## Installation instructions
 More info is coming once the first release is out.
@@ -54,6 +55,7 @@ has links to the download section of each release.
 
 
 [1]: https://httpd.apache.org/
+[2]: https://getcomposer.org/
 [3]: https://semver.org/
 [4]: https://www.iis.net/
 [5]: https://www.codeigniter.com/user_guide/general/requirements.html
