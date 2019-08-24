@@ -10,6 +10,7 @@ intended to alleviate some of the labour of planning.
 * [Installation instructions](#installation-instructions)
 * [Usage](#usage)
 * [Licensing](#licensing)
+    * [Third-party licenses](#third-party-licenses)
 * [How to contribute](#how-to-contribute)
 * [Versioning](#versioning)
 
@@ -18,7 +19,7 @@ This application is for podcast producers who want help with structuring their
 production schedules.
 
 ## Prerequisites
-* [Java 1.3 or newer][1]
+* [Java 7 or newer][1]
 
 ## Installation instructions
 More info is coming once the first release is out.
@@ -27,7 +28,19 @@ More info is coming once the first release is out.
 More info is coming once the first release is out.
 
 ## Licensing
-This application is licensed under the MIT License. For detailed license terms, please read [LICENSE][8]
+This application is licensed under the Mozilla Public License 2.0. For detailed 
+license terms, please read [LICENSE][8].
+
+### Third-party licenses
+This application uses the following third-party libraries and frameworks:
+
+* H2 Database &mdash; dually licensed under the Mozilla Public License 2.0 and 
+the Eclipse Public License 1.0
+
+For detailed license terms for all above libraries and frameworks, please look 
+into [3rd-party-licenses/licenses.txt][2] for a summary of all libraries and 
+frameworks used. In the same folder are the full license terms for all the 
+different licenses.
 
 ## How to contribute
 Thank you for wanting to contribute to this project. Open source is all about 
@@ -41,6 +54,7 @@ has links to the download section of each release.
 
 
 [1]: https://www.oracle.com/technetwork/java/javase/downloads/index.html
+[2]: 3rd-party-licenses/licenses.txt
 [3]: https://semver.org/
 [8]: LICENSE
 [9]: CONTRIBUTING.md
