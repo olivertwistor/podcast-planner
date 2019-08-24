@@ -3,9 +3,6 @@ package nu.olivertwistor.podcastplanner;
 import nu.olivertwistor.podcastplanner.database.DbUpgrader;
 import org.h2.jdbcx.JdbcDataSource;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
@@ -21,34 +18,24 @@ public final class App
      * Creates a H2 database connection and updates the database to the newest
      * version.
      *
-     * @throws NamingException if there was some naming problem
      * @throws SQLException    if the database couldn't be opened
      *
      * @since 0.1.0
      */
     @SuppressWarnings("HardcodedFileSeparator")
-    private App() throws NamingException, SQLException
+    private App() throws SQLException
     {
         // Establish a connection to our H2 database.
         final JdbcDataSource jdbcDataSource = new JdbcDataSource();
         jdbcDataSource.setURL("jdbc:h2:./podcastplanner.h2.db");
         jdbcDataSource.setUser("sa");
         jdbcDataSource.setPassword("sa");
-        Context context = null;
-        try
-        {
-            context = new InitialContext();
-            context.bind("jdbc/dsName", jdbcDataSource);
 
-            final Connection connection = jdbcDataSource.getConnection();
+        final Connection connection = jdbcDataSource.getConnection();
 
-            // Upgrade the database.
-            final DbUpgrader dbUpgrader = new DbUpgrader(connection);
-        }
-        finally
-        {
-            context.close();
-        }
+        // Upgrade the database.
+        final DbUpgrader dbUpgrader = new DbUpgrader(connection);
+        dbUpgrader.upgrade();
     }
 
     /**
@@ -63,10 +50,6 @@ public final class App
         try
         {
             new App();
-        }
-        catch (final NamingException e)
-        {
-            e.printStackTrace();
         }
         catch (final SQLException e)
         {

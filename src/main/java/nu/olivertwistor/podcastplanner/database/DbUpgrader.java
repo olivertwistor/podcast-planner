@@ -40,12 +40,14 @@ public class DbUpgrader
     }
 
     /**
-     * Upgrades the database to the latest version.
+     * Upgrades the database to the latest version. If not all upgrades was
+     * successful, changes already made will be roll backed to the state before
+     * this method call.
      *
      * All updates are hardcoded in this class, so there's no way to adjust its
      * behaviour from the perspective of the caller.
      *
-     * @throws SQLException if the database couldn't be updated
+     * @throws SQLException if there was any error manipulating the database
      *
      * @since 0.1.0
      */
@@ -56,9 +58,6 @@ public class DbUpgrader
         final boolean originalAutoCommit = this.connection.getAutoCommit();
         this.connection.setAutoCommit(false);
 
-        // Flag to make sure that all upgrades goes well.
-        boolean allOk = true;
-
         // First upgrade.
         try (final Statement statement = this.connection.createStatement())
         {
@@ -67,24 +66,20 @@ public class DbUpgrader
                     "not null, website varchar(1023), feed varchar(1023), " +
                     "primary key (id))";
 
-            final boolean thisOk = statement.execute(createTableChannel);
+            statement.execute(createTableChannel);
 
-            allOk = allOk && thisOk;
-        }
-
-        // If all upgrades went well, we can commit the transaction. Otherwise
-        // we have to roll back.
-        if (allOk)
-        {
             this.connection.commit();
         }
-        else
+        catch (final SQLException e)
         {
             this.connection.rollback();
+            throw new SQLException(e);
         }
-
-        // Restore the previous auto-commit state on the connection.
-        this.connection.setAutoCommit(originalAutoCommit);
+        finally
+        {
+            // Restore the previous auto-commit state on the connection.
+            this.connection.setAutoCommit(originalAutoCommit);
+        }
     }
 
     @Override
