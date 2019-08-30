@@ -66,7 +66,7 @@ public class DbUpgrader
                     "not null, website varchar(1023), feed varchar(1023), " +
                     "primary key (id))";
 
-            statement.execute(createTableChannel);
+            statement.executeUpdate(createTableChannel);
 
             this.connection.commit();
         }

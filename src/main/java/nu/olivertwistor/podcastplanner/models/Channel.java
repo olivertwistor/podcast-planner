@@ -1,13 +1,16 @@
 package nu.olivertwistor.podcastplanner.models;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  * This class models a podcast channel with a name, a website and a feed.
  *
  * @author Johan Nilsson
- * @since 0.1.0
+ * @since  0.1.0
  */
 public class Channel implements Crud
 {
@@ -48,15 +51,17 @@ public class Channel implements Crud
     /**
      * Creates a new Channel object by specifying all class members.
      *
-     * @param id row ID in the database
-     * @param name the name of this channel
+     * @param id      row ID in the database
+     * @param name    the name of this channel
      * @param website where listeners can listen to this channel, read show
      *                notes etc
-     * @param feed the subscription feed (for example RSS or Atom)
+     * @param feed    the subscription feed (for example RSS or Atom)
      *
      * @since 0.1.0
      */
-    public Channel(final int id, final String name, final String website,
+    public Channel(final int id,
+                   final String name,
+                   final String website,
                    final String feed)
     {
         this.id = id;
@@ -102,7 +107,34 @@ public class Channel implements Crud
     @Override
     public int create(final Connection connection) throws SQLException
     {
-        throw new UnsupportedOperationException("not yet implemented");
+        int insertedId = 0;
+
+        final String sql = "insert into Channel (name, website, feed) " +
+                "values (?, ?, ?)";
+        try (final PreparedStatement ps = connection.prepareStatement(
+                sql, Statement.RETURN_GENERATED_KEYS))
+        {
+            ps.setString(1,this.name);
+            ps.setString(2,this.website);
+            ps.setString(3,this.feed);
+
+            final int affectedRows = ps.executeUpdate();
+            if (affectedRows < 1)
+            {
+                throw new SQLException("Failed to create a new record.");
+            }
+            try (final ResultSet rs = ps.getGeneratedKeys())
+            {
+                if (rs.next())
+                {
+                    insertedId = (int) rs.getLong(1);
+                }
+            }
+        }
+
+        // Set the class member ID and return it.
+        this.id = insertedId;
+        return insertedId;
     }
 
     @SuppressWarnings("RedundantThrows")
@@ -110,7 +142,23 @@ public class Channel implements Crud
     public void read(final Connection connection, final int rowId)
             throws SQLException
     {
-        throw new UnsupportedOperationException("not yet implemented");
+        final String sql = "select id, name, website, feed from Channel " +
+                "where id = ?";
+        try (final PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setInt(1,rowId);
+
+            try (final ResultSet rs = ps.executeQuery())
+            {
+                if (rs.next())
+                {
+                    this.id = rs.getInt("id");
+                    this.name = rs.getString("name");
+                    this.website = rs.getString("website");
+                    this.feed = rs.getString("feed");
+                }
+            }
+        }
     }
 
     @SuppressWarnings("RedundantThrows")
@@ -118,7 +166,21 @@ public class Channel implements Crud
     public void update(final Connection connection, final int rowId)
             throws SQLException
     {
-        throw new UnsupportedOperationException("not yet implemented");
+        final String sql = "update Channel set name = ?, website = ?, " +
+                "feed = ? where id = ?";
+        try (final PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setString(1, this.name);
+            ps.setString(2, this.website);
+            ps.setString(3, this.feed);
+            ps.setInt(4, rowId);
+
+            final int affectedRows = ps.executeUpdate(sql);
+            if (affectedRows < 1)
+            {
+                throw new SQLException("Failed to update record.");
+            }
+        }
     }
 
     @SuppressWarnings("RedundantThrows")
@@ -126,7 +188,17 @@ public class Channel implements Crud
     public void delete(final Connection connection, final int rowId)
             throws SQLException
     {
-        throw new UnsupportedOperationException("not yet implemented");
+        final String sql = "delete from Channel where id = ?";
+        try (final PreparedStatement ps = connection.prepareStatement(sql))
+        {
+            ps.setInt(1, rowId);
+
+            final int affectedRows = ps.executeUpdate();
+            if (affectedRows < 1)
+            {
+                throw new SQLException("Failed to delete record.");
+            }
+        }
     }
 
     public String toString()
