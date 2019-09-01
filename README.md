@@ -34,8 +34,8 @@ license terms, please read [LICENSE][8].
 ### Third-party licenses
 This application uses the following third-party libraries and frameworks:
 
-* H2 Database &mdash; dually licensed under the Mozilla Public License 2.0 and 
-the Eclipse Public License 1.0
+* [H2 Database][4] &mdash; the database driver used in this application
+* [Pair][5] &mdash; small utility class for pairs of objects
 
 For detailed license terms for all above libraries and frameworks, please look 
 into [3rd-party-licenses/licenses.txt][2] for a summary of all libraries and 
@@ -56,6 +56,8 @@ has links to the download section of each release.
 [1]: https://www.oracle.com/technetwork/java/javase/downloads/index.html
 [2]: 3rd-party-licenses/licenses.txt
 [3]: https://semver.org/
+[4]: https://www.h2database.com
+[5]: https://github.com/finkn
 [8]: LICENSE
 [9]: CONTRIBUTING.md
 [10]: CHANGELOG.md

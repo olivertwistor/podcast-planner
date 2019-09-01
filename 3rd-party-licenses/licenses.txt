@@ -1,4 +1,5 @@
 H2 Database
+Copyright: H2 Database team (?)
 License: MPL 2.0 or EPL 1,0
 
 This software contains unmodified binary redistributions for
@@ -7,5 +8,7 @@ which is dual licensed and available under the MPL 2.0
 (Mozilla Public License) or under the EPL 1.0 (Eclipse Public License).
 An original copy of the license agreement can be found at:
 http://www.h2database.com/html/license.html
-
 -------------------------------------------------------------------------------
+Pair
+Copyright: Christoffer Fink
+License: MIT
