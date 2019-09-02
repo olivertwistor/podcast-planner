@@ -16,4 +16,18 @@ public class MainMenu extends Menu
         super("Exit");
         this.menuOptions.put(1, "Add a new channel");
     }
+
+    @Override
+    public void doAction(final int choice)
+    {
+        switch (choice)
+        {
+            case 0:
+                this.doExitApplication();
+                break;
+            case 1:
+                this.doAddChannel();
+                break;
+        }
+    }
 }
